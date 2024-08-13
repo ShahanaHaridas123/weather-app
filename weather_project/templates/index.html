@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Information</title>
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body{
+            background-image:url("{% static 'sunrise-red-sea.jpg' %}");
+            background-size:cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .container{
+            align-items:center;
+            display: flex;
+            /* margin-top: 50px ; */
+        }
+        .weather{
+            width: 30%;
+            margin: 50px auto;
+            background: linear-gradient(90deg, rgba(3,62,89,0.2) 0%, rgba(11,129,178,0.2) 53%, rgba(8,225,238,0.2) 97%);
+            padding: 40px;
+            box-shadow: 1px 1px 8px rgb(4, 4, 4);
+            border-radius: 8px;
+        }
+        .weather input{
+            width: 100%;
+            height: 35px;
+            background-color:white;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+        input:focus {
+        border: 2px solid rgb(19, 153, 206);
+        outline: none;
+}
+
+
+        .weather_form button{
+            padding: 10px;
+            align-items: center;
+            color: white;
+            margin-top: 10px;
+            margin-left:50px; 
+            width: 60%;
+        }
+        .weather h1{
+            margin-left: 10px;
+            margin-top:10px ;
+            font-size: 30px;
+            white-space: nowrap;
+            overflow:hidden;
+        }
+        .weather p{
+            margin-top: 8px;
+            padding: 5px;
+            font-weight: 500;
+        }
+     
+        img{
+            width: 100px;
+            height: auto;
+            margin-left: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="weather">
+        <form method="POST" action="" class="weather_form">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Search city" required>
+            <button type="submit" class="btn btn-primary">Get Weather</button>
+        </form>
+        <h1>Weather Information</h1>
+        <p>City: {{ request.POST.city }}</p>
+        <p>Description: {{ description }}</p>
+        <p>Temperature: {{ temp }}°C</p>
+        <p>Wind: {{ wind}}</p>
+        <p>Humidity: {{humidity}}</p>
+        <p>Pressure: {{pressure}}</p>
+        <p>Date: {{ day }}</p>
+        {% if icon %}
+            <img src="http://openweathermap.org/img/wn/{{ icon }}.png" alt="Weather Icon">
+        {% endif %}
+        {% if error_message %}
+        <div class="error">
+            <p>{{ error_message }}</p>
+        </div>
+        {% endif %}
+    </div>
+    </div>
+</body>
+</html>
